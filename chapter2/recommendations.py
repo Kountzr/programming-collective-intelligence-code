@@ -37,6 +37,27 @@ def sim_distance(prefs,person1,person2):
 
   return 1/(1+sum_of_squares)
 
+# Calculate tanimoto coefficient. 
+
+def sim_tanimoto(prefs,p1,p1):
+	 ci = set([])
+  
+  for item in prefs[p1]:
+    if item in prefs[p2]:
+      ci.add(item)
+
+  if len(ci) == 0: return 0
+
+  # use only items in both sets for a and b
+  a = sum([pow(prefs[p1][k], 2) for k in ci])
+  b = sum([pow(prefs[p2][k], 2) for k in ci])
+
+  # use the full sets for a and b
+  #a = sum([s*s for s in prefs[person1].values()])
+  #b = sum([s*s for s in prefs[person2].values()])
+  c = sum([prefs[p1][k] * prefs[p2][k] for k in ci])
+
+  return c/(a + b - c)
 # Returns the Pearson correlation coefficient for p1 and p2
 def sim_pearson(prefs,p1,p2):
   # Get the list of mutually rated items
